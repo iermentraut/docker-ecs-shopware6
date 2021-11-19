@@ -1,6 +1,6 @@
-# Shopware 6 easy-coding-standard
+# Easy Coding Standard (ECS) Docker images for Shopware 6
 
-This image runs ECS inside a Docker container. This allows you to use this
+This image runs ECS inside Docker containers. This allows you to use this
 image to run as a pre-commit hook.
 
 ## pre-commit hook
