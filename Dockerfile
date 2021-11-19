@@ -15,23 +15,23 @@ ARG \
 RUN \
   set -xe && \
   composer --quiet --no-cache global require \
-    symplify/easy-coding-standard:${ECS_PACKAGE_VERSION}
+    "symplify/easy-coding-standard:${ECS_PACKAGE_VERSION}"
 
 FROM php:${PHP_VERSION}-cli-${PLATFORM}
 
 ARG \
     SHOPWARE_VERSION
 
-LABEL Maintainer="Igor Ermentraut <ie@efsa.io>"
+LABEL maintainer="Igor Ermentraut <ie@efsa.io>"
 
 USER root
 
-COPY ./alpine /docker
+COPY ./ /docker
 COPY ./tests /application
 
 RUN \
-    chmod +x /docker/application_user.sh && \
-    sh /docker/application_user.sh
+    chmod +x "/docker/${PLATFORM}/application_user.sh" && \
+    sh "/docker/${PLATFORM}/application_user.sh"
 
 USER application
 

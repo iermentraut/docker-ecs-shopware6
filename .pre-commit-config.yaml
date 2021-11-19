@@ -61,8 +61,6 @@ repos:
           args: ["--severity=warning"]
           types: [shell]
 
-    # @TODO https://github.com/jessfraz/dockfmt
-
     # - repo: https://github.com/iermentraut/shopware-ecs-docker
     #   rev: v1.0.0
     #   hooks:
