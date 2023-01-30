@@ -2,10 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
-
-  pull_request:
-    branches: [ "master" ]
+    tags: [ "v[0-9]+*" ]
 
 jobs:
   build:
@@ -24,5 +21,21 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ecs-shopware:$(date +%s)
+    - name: Build and export to Docker
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        load: true
+        tags: ${{ env.TEST_TAG }}
+
+    - name: Test
+      run: |
+        docker run --rm ${{ env.TEST_TAG }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ env.LATEST_TAG }}
