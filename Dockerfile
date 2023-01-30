@@ -2,17 +2,22 @@ ARG PHP_VERSION=8.0
 
 FROM webdevops/php-dev:${PHP_VERSION}-alpine
 
-ARG SHOPWARE_VERSION=6.4
+ENV SHOPWARE_VERSION=6.4
+ENV COMPOSER_VERSION=2
+ENV PHP_MEMORY_LIMIT=4G
+ENV PHP_MAX_EXECUTION_TIME=600
+ENV PHP_DISPLAY_ERRORS=1
+ENV PHP_DISPLAY_STARTUP_ERRORS=1
+ENV PHP_ERROR_REPORTING=E_ALL
 
-WORKDIR /root
+WORKDIR /application
 
-COPY ./ /
+COPY ./ /application/
 
 RUN \
     set -xe \
-    && composer require --no-cache --no-scripts symplify/easy-coding-standard --dev \
-    && wget -q "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php"
+    && composer install --no-cache --no-scripts
 
-VOLUME ["/src"]
+VOLUME ["/code"]
 
 ENTRYPOINT ["/entrypoint.sh"]
