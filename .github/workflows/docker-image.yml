@@ -26,13 +26,6 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    # - name: Set version
-    #   uses: actions/github-script@v6
-    #   id: set-version
-    #   with:
-    #     result-encoding: string
-    #     script: return context.payload.release.tag_name.replace('v', '')
-
     - name: Build and export to Docker
       uses: docker/build-push-action@v3
       with:
@@ -42,12 +35,9 @@ jobs:
           ${{ github.repository }}:latest
           ${{ github.repository }}:${{ github.ref_name }}
 
-    # - name: Inspect
-    #   run: |
-    #     docker image inspect ${{ github.repository }}:${{ github.ref_name }}
-
     - name: Test image
       run: |
+        docker run --working-dir /code -v $(pwd):/code --rm composer:2 create-project shopware/production:dev-flex .
         docker run --rm ${{ github.repository }}:${{ github.ref_name }}
 
     - name: Build and push
