@@ -17,7 +17,9 @@ COPY ./entrypoint.sh /entrypoint.sh
 
 RUN \
     set -xe \
-    && composer install --no-cache --no-scripts
+    && composer install --no-cache --no-scripts \
+    && wget -O /root/easy-coding-standard.php -q \
+        "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php"
 
 VOLUME ["/code"]
 
