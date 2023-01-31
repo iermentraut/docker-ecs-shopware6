@@ -16,8 +16,6 @@ WORKDIR /application
 
 COPY ./entrypoint.sh /entrypoint.sh
 
-USER application
-
 RUN \
     set -xe \
     && composer require --no-cache --no-scripts symplify/easy-coding-standard "^11.2" \
