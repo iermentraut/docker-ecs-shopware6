@@ -45,6 +45,7 @@ jobs:
           --no-plugins \
           --no-cache \
           shopware/production:dev-flex /app
+
         docker run --rm -v /tmp/shopware:/code ${{ github.repository }}:${{ github.ref_name }}
 
     # - name: Build and push
