@@ -11,7 +11,7 @@ on:
     paths:
       - 'Dockerfile'
       - 'entrypoint.sh'
-    tags: [ "v[0-9]+*" ]
+    # tags: [ "v[0-9]+*" ]
 
 jobs:
   build:
