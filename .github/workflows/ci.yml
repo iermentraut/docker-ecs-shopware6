@@ -63,7 +63,7 @@ jobs:
         context: .
         load: true
         tags: |
-          ${{ github.repository }}:${{ matrix.shopware-versions }}-php${{ matrix.php-versions }}
+          ghcr.io/${{ github.repository }}:${{ matrix.shopware-versions }}-php${{ matrix.php-versions }}
 
     - name: Prepare test
       run: |
@@ -87,7 +87,7 @@ jobs:
         docker run \
           --rm \
           -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/code \
-          ${{ github.repository }}:${{ matrix.shopware-versions }}-php${{ matrix.php-versions }}
+          ghcr.io/${{ github.repository }}:${{ matrix.shopware-versions }}-php${{ matrix.php-versions }}
 
     - name: Build and push
       uses: docker/build-push-action@v3
@@ -96,4 +96,6 @@ jobs:
         # platforms: linux/amd64,linux/arm64
         push: true
         tags: |
-          ${{ github.repository }}:${{ matrix.shopware-versions }}-php${{ matrix.php-versions }}
+          ghcr.io/${{ github.repository }}:${{ matrix.shopware-versions }}-php${{ matrix.php-versions }}
+        secrets: |
+          GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
