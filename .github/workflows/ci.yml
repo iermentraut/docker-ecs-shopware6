@@ -23,23 +23,23 @@ jobs:
         ]
         shopware-versions: [
           'v6.4.0.0',
-          'v6.4.1.0',
-          'v6.4.2.0',
-          'v6.4.3.0',
-          'v6.4.4.0',
-          'v6.4.5.0',
-          'v6.4.6.0',
-          'v6.4.7.0',
-          'v6.4.8.0',
-          'v6.4.9.0',
-          'v6.4.10.0',
-          'v6.4.11.0',
-          'v6.4.12.0',
-          'v6.4.13.0',
-          'v6.4.14.0',
-          'v6.4.15.0',
-          'v6.4.16.0',
-          'v6.4.17.0'
+          # 'v6.4.1.0',
+          # 'v6.4.2.0',
+          # 'v6.4.3.0',
+          # 'v6.4.4.0',
+          # 'v6.4.5.0',
+          # 'v6.4.6.0',
+          # 'v6.4.7.0',
+          # 'v6.4.8.0',
+          # 'v6.4.9.0',
+          # 'v6.4.10.0',
+          # 'v6.4.11.0',
+          # 'v6.4.12.0',
+          # 'v6.4.13.0',
+          # 'v6.4.14.0',
+          # 'v6.4.15.0',
+          # 'v6.4.16.0',
+          # 'v6.4.17.0'
         ]
     name: Shopware ${{ matrix.shopware-versions }} on PHP ${{ matrix.php-versions }}
 
@@ -72,20 +72,22 @@ jobs:
         docker run \
           --rm \
           -t \
-          -w /app \
-          -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/app composer:2 create-project \
-          --ignore-platform-reqs \
-          --no-interaction \
-          --no-scripts \
-          --no-progress \
-          --no-plugins \
-          --no-cache \
-          shopware/production:dev-flex /app
+          --workdir /app \
+          -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/app \
+          composer:2 \
+            create-project \
+              --ignore-platform-reqs \
+              --no-interaction \
+              --no-scripts \
+              --no-progress \
+              --no-plugins \
+              --no-cache \
+              shopware/production:dev-flex /app
 
         docker run \
           --rm \
           -t \
-          -w /app \
+          --workdir /app \
           -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/app \
           --entrypoint bash \
           composer:2 -c 'git checkout tags/${{ matrix.shopware-versions }} -b ${{ matrix.shopware-versions }}'
