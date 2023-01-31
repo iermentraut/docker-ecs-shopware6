@@ -1,4 +1,8 @@
-# @see https://docs.docker.com/build/ci/github-actions/examples/
+---
+# - https://docs.docker.com/build/ci/github-actions/examples/
+# - https://docs.github.com/en/actions/learn-github-actions/variables
+# - https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+# - https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
 name: Docker Image CI
 
 on:
@@ -22,16 +26,29 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Set version
+      uses: actions/github-script@v6
+      id: set-version
+      with:
+        result-encoding: string
+        script: return context.payload.release.tag_name.replace('v', '')
+
     - name: Build and export to Docker
       uses: docker/build-push-action@v3
       with:
         context: .
         load: true
-        tags: ${{ github.repository }}:${{ github.ref_name }}
+        tags: |
+          ${{ github.repository }}:latest
+          ${{ github.repository }}:${{ steps.set-version.outputs.result }}
+
+    - name: Inspect
+      run: |
+        docker image inspect myimage:latest
 
     - name: Test
       run: |
-        docker run --rm ${{ github.repository }}:${{ github.ref_name }}
+        docker run --rm ${{ github.repository }}:${{ steps.set-version.outputs.result }}
 
     - name: Build and push
       uses: docker/build-push-action@v3
@@ -39,4 +56,6 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: ${{ github.repository }}:${{ github.ref_name }}
+        tags: |
+          ${{ github.repository }}:latest
+          ${{ github.repository }}:${{ steps.set-version.outputs.result }}

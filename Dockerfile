@@ -12,7 +12,8 @@ ENV PHP_ERROR_REPORTING=E_ALL
 
 WORKDIR /application
 
-COPY ./ /application/
+COPY ./composer.json /application/composer.json
+COPY ./entrypoint.sh /entrypoint.sh
 
 RUN \
     set -xe \
