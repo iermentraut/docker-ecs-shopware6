@@ -26,12 +26,12 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Set version
-      uses: actions/github-script@v6
-      id: set-version
-      with:
-        result-encoding: string
-        script: return context.payload.release.tag_name.replace('v', '')
+    # - name: Set version
+    #   uses: actions/github-script@v6
+    #   id: set-version
+    #   with:
+    #     result-encoding: string
+    #     script: return context.payload.release.tag_name.replace('v', '')
 
     - name: Build and export to Docker
       uses: docker/build-push-action@v3
@@ -40,15 +40,15 @@ jobs:
         load: true
         tags: |
           ${{ github.repository }}:latest
-          ${{ github.repository }}:${{ steps.set-version.outputs.result }}
+          ${{ github.repository }}:${{ github.ref_name }}"
 
-    - name: Inspect
-      run: |
-        docker image inspect myimage:latest
+    # - name: Inspect
+    #   run: |
+    #     docker image inspect ${{ github.repository }}:${{ github.ref_name }}
 
-    - name: Test
+    - name: Test image
       run: |
-        docker run --rm ${{ github.repository }}:${{ steps.set-version.outputs.result }}
+        docker run --rm ${{ github.repository }}:${{ github.ref_name }}"
 
     - name: Build and push
       uses: docker/build-push-action@v3
@@ -58,4 +58,4 @@ jobs:
         push: true
         tags: |
           ${{ github.repository }}:latest
-          ${{ github.repository }}:${{ steps.set-version.outputs.result }}
+          ${{ github.repository }}:${{ github.ref_name }}
