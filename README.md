@@ -18,7 +18,7 @@ repos:
           - id: shopware-ecs-docker
             name: shopware-ecs-docker
             language: docker_image
-            entry: ghcr.io/iermentraut/shopware-ecs-docker:6.4-php8.0
+            entry: ghcr.io/iermentraut/docker-ecs-shopware:6.4.0.0-php8.0
             types: [file]
             files: *\.php$
 ```
