@@ -84,14 +84,6 @@ jobs:
               --no-cache \
               shopware/production:${{ matrix.shopware-versions }} /app
 
-        docker run \
-          --rm \
-          -t \
-          --workdir /app \
-          -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/app \
-          --entrypoint bash \
-          composer:2 -c 'git checkout tags/v${{ matrix.shopware-versions }} -b v${{ matrix.shopware-versions }}'
-
     - name: Run test
       run: |
         docker run \
