@@ -22,7 +22,7 @@ jobs:
           '8.0'
         ]
         shopware-versions: [
-          'v6.4.0.0',
+          '6.4.0.0',
           # 'v6.4.1.0',
           # 'v6.4.2.0',
           # 'v6.4.3.0',
@@ -41,7 +41,7 @@ jobs:
           # 'v6.4.16.0',
           # 'v6.4.17.0'
         ]
-    name: Shopware ${{ matrix.shopware-versions }} on PHP ${{ matrix.php-versions }}
+    name: Shopware v${{ matrix.shopware-versions }} on PHP ${{ matrix.php-versions }}
 
     steps:
     - name: Checkout
@@ -73,7 +73,7 @@ jobs:
           --rm \
           -t \
           --workdir /app \
-          -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/app \
+          -v $(pwd)/shopware-v${{ matrix.shopware-versions }}:/app \
           composer:2 \
             create-project \
               --ignore-platform-reqs \
@@ -82,7 +82,7 @@ jobs:
               --no-progress \
               --no-plugins \
               --no-cache \
-              shopware/production:dev-flex /app
+              shopware/production:${{ matrix.shopware-versions }} /app
 
         docker run \
           --rm \
@@ -90,7 +90,7 @@ jobs:
           --workdir /app \
           -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/app \
           --entrypoint bash \
-          composer:2 -c 'git checkout tags/${{ matrix.shopware-versions }} -b ${{ matrix.shopware-versions }}'
+          composer:2 -c 'git checkout tags/v${{ matrix.shopware-versions }} -b v${{ matrix.shopware-versions }}'
 
     - name: Run test
       run: |
