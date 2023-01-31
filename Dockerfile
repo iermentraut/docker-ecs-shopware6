@@ -14,7 +14,6 @@ ENV PHP_ERROR_REPORTING=E_ALL
 
 WORKDIR /application
 
-COPY ./composer.json /application/composer.json
 COPY ./entrypoint.sh /entrypoint.sh
 
 USER application
