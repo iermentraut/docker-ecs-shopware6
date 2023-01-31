@@ -40,7 +40,7 @@ jobs:
         load: true
         tags: |
           ${{ github.repository }}:latest
-          ${{ github.repository }}:${{ github.ref_name }}"
+          ${{ github.repository }}:${{ github.ref_name }}
 
     # - name: Inspect
     #   run: |
@@ -48,7 +48,7 @@ jobs:
 
     - name: Test image
       run: |
-        docker run --rm ${{ github.repository }}:${{ github.ref_name }}"
+        docker run --rm ${{ github.repository }}:${{ github.ref_name }}
 
     - name: Build and push
       uses: docker/build-push-action@v3
