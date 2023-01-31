@@ -27,11 +27,11 @@ jobs:
       with:
         context: .
         load: true
-        tags: "{{ github.repository }}:{{ github.ref_name }}"
+        tags: ${{ github.repository }}:${{ github.ref_name }}
 
     - name: Test
       run: |
-        docker run --rm "{{ github.repository }}:{{ github.ref_name }}"
+        docker run --rm ${{ github.repository }}:${{ github.ref_name }}
 
     - name: Build and push
       uses: docker/build-push-action@v3
@@ -39,4 +39,4 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: "{{ github.repository }}:{{ github.ref_name }}"
+        tags: ${{ github.repository }}:${{ github.ref_name }}
