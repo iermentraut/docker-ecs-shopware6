@@ -37,7 +37,14 @@ jobs:
 
     - name: Test image
       run: |
-        docker run -w /app -v /tmp/shopware:/app --rm composer:2 create-project shopware/production:dev-flex /app
+        docker run -w /app -v /tmp/shopware:/app --rm composer:2 create-project \
+          --ignore-platform-reqs \
+          --no-interaction \
+          --no-scripts \
+          --no-progress \
+          --no-plugins \
+          --no-cache \
+          shopware/production:dev-flex /app
         docker run --rm -v /tmp/shopware:/code ${{ github.repository }}:${{ github.ref_name }}
 
     # - name: Build and push
