@@ -17,12 +17,14 @@ WORKDIR /application
 COPY ./composer.json /application/composer.json
 COPY ./entrypoint.sh /entrypoint.sh
 
+USER application
+
 RUN \
     set -xe \
     && composer require --no-cache --no-scripts symplify/easy-coding-standard "^11.2" \
-    && wget -O /root/easy-coding-standard.php -q \
+    && wget -O /application/easy-coding-standard.php -q \
         "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php"
 
-VOLUME ["/code"]
+VOLUME ["/src"]
 
 ENTRYPOINT ["/entrypoint.sh"]

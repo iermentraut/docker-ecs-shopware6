@@ -8,7 +8,10 @@ name: Docker Image CI
 
 on:
   push:
-#     tags: [ "v[0-9]+*" ]
+    paths:
+      - 'Dockerfile'
+      - 'entrypoint.sh'
+    tags: [ "v[0-9]+*" ]
 
 jobs:
   build:
@@ -86,7 +89,7 @@ jobs:
       run: |
         docker run \
           --rm \
-          -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/code \
+          -v $(pwd)/shopware-${{ matrix.shopware-versions }}:/src \
           ghcr.io/${{ github.repository }}:${{ matrix.shopware-versions }}-php${{ matrix.php-versions }}
 
     - name: Build and push
