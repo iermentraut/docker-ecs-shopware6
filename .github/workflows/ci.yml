@@ -37,15 +37,15 @@ jobs:
 
     - name: Test image
       run: |
-        docker run --working-dir /code -v $(pwd):/code --rm composer:2 create-project shopware/production:dev-flex .
+        docker run -w /code -v $(pwd):/code --rm composer:2 create-project shopware/production:dev-flex .
         docker run --rm -v $(pwd):/code ${{ github.repository }}:${{ github.ref_name }}
 
-    - name: Build and push
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: |
-          ${{ github.repository }}:latest
-          ${{ github.repository }}:${{ github.ref_name }}
+    # - name: Build and push
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #     context: .
+    #     platforms: linux/amd64,linux/arm64
+    #     push: true
+    #     tags: |
+    #       ${{ github.repository }}:latest
+    #       ${{ github.repository }}:${{ github.ref_name }}
