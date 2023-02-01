@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 
 if [ "$(ls -A /src)" ]; then
     if [ ! -e /src/ecs.php ] && [ ! -e /src/easy-coding-standard.php ]; then
