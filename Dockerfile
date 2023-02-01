@@ -20,7 +20,7 @@ RUN \
     set -xe \
     && wget -O composer.json -q https://raw.githubusercontent.com/shopware/development/${SHOPWARE_VERSION}/dev-ops/analyze/vendor-bin/cs-fixer/composer.json \
     && wget -O composer.lock -q https://raw.githubusercontent.com/shopware/development/${SHOPWARE_VERSION}/dev-ops/analyze/vendor-bin/cs-fixer/composer.lock \
-    && composer install --no-interaction --no-progress --no-suggest --no-scripts --no-autoloader \
+    && composer install --dev --no-interaction --no-progress --no-suggest --no-scripts --no-autoloader \
     && wget -O ecs.php -q "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php"
 
 VOLUME ["/src"]
