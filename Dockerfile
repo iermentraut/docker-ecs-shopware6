@@ -12,15 +12,16 @@ ENV PHP_DISPLAY_ERRORS=1
 ENV PHP_DISPLAY_STARTUP_ERRORS=1
 ENV PHP_ERROR_REPORTING=E_ALL
 
-WORKDIR /application
-
 COPY ./entrypoint.sh /entrypoint.sh
+
+WORKDIR /application
 
 RUN \
     set -xe \
-    && composer require --no-cache --no-scripts symplify/easy-coding-standard "^11.2" \
-    && wget -O /application/easy-coding-standard.php -q \
-        "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php"
+    && wget -O composer.json -q https://raw.githubusercontent.com/shopware/development/${SHOPWARE_VERSION}/dev-ops/analyze/vendor-bin/cs-fixer/composer.json \
+    && wget -O composer.lock -q https://raw.githubusercontent.com/shopware/development/${SHOPWARE_VERSION}/dev-ops/analyze/vendor-bin/cs-fixer/composer.lock \
+    && composer install --no-interaction --no-progress --no-suggest --no-scripts --no-autoloader \
+    && wget -O ecs.php -q "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php"
 
 VOLUME ["/src"]
 
