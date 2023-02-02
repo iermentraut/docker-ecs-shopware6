@@ -2,7 +2,9 @@
 
 for file in $(git diff --name-only --staged); do
     if [[ $file == *.php ]]; then
-        cp $file /staged
+        if [[ -e $file ]]; then
+            cp $file /staged
+        fi
     fi
 done
 
