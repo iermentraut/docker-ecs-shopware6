@@ -1,7 +1,7 @@
 ARG PHP_VERSION=8.0
 ARG SHOPWARE_VERSION=v6.4.0.0
 
-FROM webdevops/php-dev:${PHP_VERSION}-alpine
+FROM webdevops/php:${PHP_VERSION}-alpine
 
 ARG SHOPWARE_VERSION
 
@@ -21,7 +21,9 @@ RUN \
     && wget -O composer.json -q https://raw.githubusercontent.com/shopware/development/${SHOPWARE_VERSION}/dev-ops/analyze/vendor-bin/cs-fixer/composer.json \
     && wget -O composer.lock -q https://raw.githubusercontent.com/shopware/development/${SHOPWARE_VERSION}/dev-ops/analyze/vendor-bin/cs-fixer/composer.lock \
     && composer install --dev --no-interaction --no-progress \
-    && wget -O ecs.php -q "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php"
+    && wget -O ecs.php -q "https://raw.githubusercontent.com/shopware/production/${SHOPWARE_VERSION}/easy-coding-standard.php" \
+    && mkdir /staged \
+    && chown -R application:application /staged
 
 VOLUME ["/src"]
 

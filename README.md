@@ -13,16 +13,13 @@ default_language_version:
 default_stages: [commit, push]
 
 repos:
-    - repo: local
-      hooks:
-          - id: shopware-ecs-docker
-            name: shopware-ecs-docker
-            language: docker_image
-            entry: ghcr.io/iermentraut/docker-ecs-shopware:6.4.0.0-php8.0
-            types: [file]
-            files: *\.php$
+  - repo: local
+    hooks:
+      - id: easy-coding-standard
+        name: easy-coding-standard
+        entry: ghcr.io/iermentraut/docker-ecs-shopware:6.4.15.1-php8.0
+        language: docker_image
+        types: [file, php]
+        verbose: true
+        require_serial: true
 ```
-
-## Available version
-
-List of [all versions](https://github.com/iermentraut/shopware-ecs-docker/pkgs/container/shopware-ecs-docker/versions)

@@ -1,17 +1,17 @@
 #!/bin/bash -e
 
-if [ "$(ls -A /src)" ]; then
-    if [ ! -e /src/ecs.php ] && [ ! -e /src/easy-coding-standard.php ]; then
-        /usr/local/bin/php /application/vendor/bin/ecs check --fix --config /application/ecs.php -- /src
+for file in $(git diff --name-only --staged); do
+    if [[ $file == *.php ]]; then
+        cp $file /staged
     fi
+done
 
-    if [ -e /src/easy-coding-standard.php ]; then
-        /usr/local/bin/php /application/vendor/bin/ecs check --fix --config /application/easy-coding-standard.php -- /src
-    fi
-
-    if [ -e /src/ecs.php ]; then
-        /usr/local/bin/php /application/vendor/bin/ecs check --fix --config /application/ecs.php -- /src
-    fi
+if [ -e /src/ecs.php ]; then
+    config="/src/ecs.php"
+elif [ -e /src/easy-coding-standard.php ]; then
+    config="/src/easy-coding-standard.php"
 else
-    echo "Directory /src is empty. Skipping."
+    config="/application/ecs.php"
 fi
+
+php /application/vendor/bin/ecs check --fix --config $config -- /staged
