@@ -23,7 +23,8 @@ jobs:
       matrix:
         php-versions: [
           # '7.4',
-          '8.0'
+          '8.0',
+          '8.1'
         ]
         shopware-versions: [
           '6.4.0.0',
